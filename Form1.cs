@@ -30,9 +30,18 @@ namespace musicPlayer
         }
 
         private void playBtn_Click(object sender, EventArgs e)
-        {
-            wPlayer.URL = paths[songList.SelectedIndex];
-            wPlayer.controls.play();
+        {                  
+            try
+            {
+                wPlayer.URL = paths[songList.SelectedIndex];
+                wPlayer.controls.play();
+            }
+            catch
+            {
+                string msg = "Please choose a song";
+                string title = "Error";
+                MessageBox.Show(msg, title);
+            }
             
         }
 
@@ -48,17 +57,19 @@ namespace musicPlayer
 
                 for(int i = 0; i < files.Length; i++)
                 {
-                    songList.Items.Add(files[i]);
+                   songList.Items.Add(files[i]);
                 }
-
             }
+        }
+
+        private void removeBtn_Click(object sender, EventArgs e)
+        {           
+                songList.Items.RemoveAt(songList.SelectedIndex);        
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-
-        
+            MessageBox.Show("Welcome to my MusicPlayer!","Hello there!");
+        }       
     }
 }
