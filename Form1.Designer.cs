@@ -51,7 +51,7 @@ namespace musicPlayer
             this.previousBtn.TabIndex = 0;
             this.previousBtn.Text = "Previous";
             this.previousBtn.UseVisualStyleBackColor = true;
-            this.previousBtn.Click += new System.EventHandler(this.button1_Click);
+            this.previousBtn.Click += new System.EventHandler(this.previousBtn_Click);
             // 
             // playBtn
             // 
@@ -152,7 +152,7 @@ namespace musicPlayer
             this.Controls.Add(this.playBtn);
             this.Controls.Add(this.previousBtn);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Music Player";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
             this.ResumeLayout(false);

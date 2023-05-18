@@ -15,20 +15,25 @@ namespace musicPlayer
     {
         string[] files, paths;
         WMPLib.WindowsMediaPlayer wPlayer = new WMPLib.WindowsMediaPlayer();
+
         public Form1()
         {
             InitializeComponent();
         }
-        //previous
-        private void button1_Click(object sender, EventArgs e)
+
+        //previous song button
+        private void previousBtn_Click(object sender, EventArgs e)
         {
 
         }
+
+        //pause song
         private void pauseBtn_Click(object sender, EventArgs e)
         {
             wPlayer.controls.stop();
         }
 
+        //play song button - throw error when user clicked Play with no song selected
         private void playBtn_Click(object sender, EventArgs e)
         {                  
             try
@@ -39,12 +44,13 @@ namespace musicPlayer
             catch
             {
                 string msg = "Please choose a song";
-                string title = "Error";
+                string title = "Error playing song";
                 MessageBox.Show(msg, title);
             }
             
         }
 
+        //add song button - can add multiple song - all files accepted
         private void addBtn_Click(object sender, EventArgs e)
         {
             OpenFileDialog addSong = new OpenFileDialog();
@@ -62,14 +68,27 @@ namespace musicPlayer
             }
         }
 
+        //remove song button - throw error when user clicked Remove with no song selected
         private void removeBtn_Click(object sender, EventArgs e)
-        {           
-                songList.Items.RemoveAt(songList.SelectedIndex);        
+        {
+            try
+            {
+                songList.Items.RemoveAt(songList.SelectedIndex);
+            }
+            catch
+            {
+                string msg = "No song selected";
+                string title = "Error removing song";
+                MessageBox.Show(msg, title);
+            }
         }
 
+        //what the form will do when user opens the program
         private void Form1_Load(object sender, EventArgs e)
         {
             MessageBox.Show("Welcome to my MusicPlayer!","Hello there!");
+            //hide windows media player UI
+            axWindowsMediaPlayer1.uiMode = "Invisible";
         }       
     }
 }
