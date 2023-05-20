@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -83,12 +84,54 @@ namespace musicPlayer
             }
         }
 
+        private void loop_CheckedChanged(object sender, EventArgs e)
+        {           
+            if (loop.Checked)
+            {
+                wPlayer.settings.setMode("Loop", true);
+            }
+            else
+            {
+                wPlayer.settings.setMode("Loop", false);
+            }
+        }
+
+        private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsMediaEnded)
+            {
+                timer1.Interval = 100;
+                timer1.Enabled = true;
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (songList.SelectedIndex < files.Length - 1)
+            {
+                songList.SelectedIndex++;
+                timer1.Enabled = false;
+            }
+            else
+            {
+                songList.SelectedIndex = 0;
+                timer1.Enabled = false;
+            }
+        }
+
+        private void shuffleBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
         //what the form will do when user opens the program
         private void Form1_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("Welcome to my MusicPlayer!","Hello there!");
+            //MessageBox.Show("Welcome to my MusicPlayer!","Hello there!");
             //hide windows media player UI
-            axWindowsMediaPlayer1.uiMode = "Invisible";
-        }       
+            //axWindowsMediaPlayer1.uiMode = "Invisible";
+        }
+
+        
     }
 }
