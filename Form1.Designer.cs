@@ -33,16 +33,22 @@ namespace musicPlayer
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.playBtn = new System.Windows.Forms.Button();
             this.pauseBtn = new System.Windows.Forms.Button();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.songList = new System.Windows.Forms.ListBox();
             this.addBtn = new System.Windows.Forms.Button();
             this.removeBtn = new System.Windows.Forms.Button();
             this.shuffleBox = new System.Windows.Forms.CheckBox();
-            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
-            this.repeatOnce = new System.Windows.Forms.CheckBox();
+            this.repeat = new System.Windows.Forms.CheckBox();
             this.loop = new System.Windows.Forms.CheckBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.resumeBtn = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.nextBtn = new System.Windows.Forms.Button();
+            this.prvBtn = new System.Windows.Forms.Button();
+            this.clearBtn = new System.Windows.Forms.Button();
+            this.duration = new System.Windows.Forms.Label();
+            this.time = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,24 +72,17 @@ namespace musicPlayer
             this.pauseBtn.UseVisualStyleBackColor = true;
             this.pauseBtn.Click += new System.EventHandler(this.pauseBtn_Click);
             // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(5, 196);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(318, 12);
-            this.progressBar.TabIndex = 4;
-            // 
             // songList
             // 
             this.songList.FormattingEnabled = true;
             this.songList.Location = new System.Drawing.Point(5, 13);
             this.songList.Name = "songList";
-            this.songList.Size = new System.Drawing.Size(317, 160);
+            this.songList.Size = new System.Drawing.Size(262, 160);
             this.songList.TabIndex = 5;
             // 
             // addBtn
             // 
-            this.addBtn.Location = new System.Drawing.Point(47, 225);
+            this.addBtn.Location = new System.Drawing.Point(12, 225);
             this.addBtn.Name = "addBtn";
             this.addBtn.Size = new System.Drawing.Size(75, 23);
             this.addBtn.TabIndex = 6;
@@ -93,7 +92,7 @@ namespace musicPlayer
             // 
             // removeBtn
             // 
-            this.removeBtn.Location = new System.Drawing.Point(209, 225);
+            this.removeBtn.Location = new System.Drawing.Point(248, 225);
             this.removeBtn.Name = "removeBtn";
             this.removeBtn.Size = new System.Drawing.Size(75, 23);
             this.removeBtn.TabIndex = 7;
@@ -104,7 +103,7 @@ namespace musicPlayer
             // shuffleBox
             // 
             this.shuffleBox.AutoSize = true;
-            this.shuffleBox.Location = new System.Drawing.Point(60, 283);
+            this.shuffleBox.Location = new System.Drawing.Point(273, 59);
             this.shuffleBox.Name = "shuffleBox";
             this.shuffleBox.Size = new System.Drawing.Size(59, 17);
             this.shuffleBox.TabIndex = 8;
@@ -112,40 +111,26 @@ namespace musicPlayer
             this.shuffleBox.UseVisualStyleBackColor = true;
             this.shuffleBox.CheckedChanged += new System.EventHandler(this.shuffleBox_CheckedChanged);
             // 
-            // axWindowsMediaPlayer1
+            // repeat
             // 
-            this.axWindowsMediaPlayer1.Enabled = true;
-            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(47, 96);
-            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
-            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
-            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(259, 58);
-            this.axWindowsMediaPlayer1.TabIndex = 9;
-            this.axWindowsMediaPlayer1.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.axWindowsMediaPlayer1_PlayStateChange);
-            // 
-            // repeatOnce
-            // 
-            this.repeatOnce.AutoSize = true;
-            this.repeatOnce.Location = new System.Drawing.Point(119, 283);
-            this.repeatOnce.Name = "repeatOnce";
-            this.repeatOnce.Size = new System.Drawing.Size(90, 17);
-            this.repeatOnce.TabIndex = 10;
-            this.repeatOnce.Text = "Repeat Once";
-            this.repeatOnce.UseVisualStyleBackColor = true;
+            this.repeat.AutoSize = true;
+            this.repeat.Location = new System.Drawing.Point(273, 36);
+            this.repeat.Name = "repeat";
+            this.repeat.Size = new System.Drawing.Size(61, 17);
+            this.repeat.TabIndex = 10;
+            this.repeat.Text = "Repeat";
+            this.repeat.UseVisualStyleBackColor = true;
             // 
             // loop
             // 
             this.loop.AutoSize = true;
-            this.loop.Location = new System.Drawing.Point(215, 283);
+            this.loop.Location = new System.Drawing.Point(273, 13);
             this.loop.Name = "loop";
             this.loop.Size = new System.Drawing.Size(50, 17);
             this.loop.TabIndex = 11;
             this.loop.Text = "Loop";
             this.loop.UseVisualStyleBackColor = true;
             this.loop.CheckedChanged += new System.EventHandler(this.loop_CheckedChanged);
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // resumeBtn
             // 
@@ -155,23 +140,114 @@ namespace musicPlayer
             this.resumeBtn.TabIndex = 12;
             this.resumeBtn.Text = "Resume";
             this.resumeBtn.UseVisualStyleBackColor = true;
+            this.resumeBtn.Click += new System.EventHandler(this.resumeBtn_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // nextBtn
+            // 
+            this.nextBtn.Location = new System.Drawing.Point(248, 283);
+            this.nextBtn.Name = "nextBtn";
+            this.nextBtn.Size = new System.Drawing.Size(75, 23);
+            this.nextBtn.TabIndex = 13;
+            this.nextBtn.Text = "Next";
+            this.nextBtn.UseVisualStyleBackColor = true;
+            this.nextBtn.Click += new System.EventHandler(this.nextBtn_Click);
+            // 
+            // prvBtn
+            // 
+            this.prvBtn.Location = new System.Drawing.Point(12, 283);
+            this.prvBtn.Name = "prvBtn";
+            this.prvBtn.Size = new System.Drawing.Size(75, 23);
+            this.prvBtn.TabIndex = 14;
+            this.prvBtn.Text = "Previous";
+            this.prvBtn.UseVisualStyleBackColor = true;
+            this.prvBtn.Click += new System.EventHandler(this.prvBtn_Click);
+            // 
+            // clearBtn
+            // 
+            this.clearBtn.Location = new System.Drawing.Point(128, 283);
+            this.clearBtn.Name = "clearBtn";
+            this.clearBtn.Size = new System.Drawing.Size(75, 23);
+            this.clearBtn.TabIndex = 15;
+            this.clearBtn.Text = "Clear list";
+            this.clearBtn.UseVisualStyleBackColor = true;
+            this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click);
+            // 
+            // duration
+            // 
+            this.duration.AutoSize = true;
+            this.duration.Location = new System.Drawing.Point(9, 194);
+            this.duration.Name = "duration";
+            this.duration.Size = new System.Drawing.Size(81, 13);
+            this.duration.TabIndex = 16;
+            this.duration.Text = "Song Duration: ";
+            // 
+            // time
+            // 
+            this.time.AutoSize = true;
+            this.time.Location = new System.Drawing.Point(167, 194);
+            this.time.Name = "time";
+            this.time.Size = new System.Drawing.Size(36, 13);
+            this.time.TabIndex = 17;
+            this.time.Text = "Time: ";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(96, 194);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "00:00";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(206, 194);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "00:00";
+            // 
+            // axWindowsMediaPlayer1
+            // 
+            this.axWindowsMediaPlayer1.Enabled = true;
+            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(88, 113);
+            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
+            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
+            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(75, 23);
+            this.axWindowsMediaPlayer1.TabIndex = 20;
+            this.axWindowsMediaPlayer1.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.axWindowsMediaPlayer1_PlayStateChange);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 313);
+            this.ClientSize = new System.Drawing.Size(335, 317);
+            this.Controls.Add(this.axWindowsMediaPlayer1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.time);
+            this.Controls.Add(this.duration);
+            this.Controls.Add(this.clearBtn);
+            this.Controls.Add(this.prvBtn);
+            this.Controls.Add(this.nextBtn);
             this.Controls.Add(this.resumeBtn);
             this.Controls.Add(this.loop);
-            this.Controls.Add(this.repeatOnce);
-            this.Controls.Add(this.axWindowsMediaPlayer1);
+            this.Controls.Add(this.repeat);
             this.Controls.Add(this.shuffleBox);
             this.Controls.Add(this.removeBtn);
             this.Controls.Add(this.addBtn);
             this.Controls.Add(this.songList);
-            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.pauseBtn);
             this.Controls.Add(this.playBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Music Player";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -184,16 +260,22 @@ namespace musicPlayer
         #endregion
         private System.Windows.Forms.Button playBtn;
         private System.Windows.Forms.Button pauseBtn;
-        private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.ListBox songList;
         private System.Windows.Forms.Button addBtn;
         private System.Windows.Forms.Button removeBtn;
         private System.Windows.Forms.CheckBox shuffleBox;
-        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
-        private System.Windows.Forms.CheckBox repeatOnce;
+        private System.Windows.Forms.CheckBox repeat;
         private System.Windows.Forms.CheckBox loop;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button resumeBtn;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button nextBtn;
+        private System.Windows.Forms.Button prvBtn;
+        private System.Windows.Forms.Button clearBtn;
+        private System.Windows.Forms.Label duration;
+        private System.Windows.Forms.Label time;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
     }
 }
 

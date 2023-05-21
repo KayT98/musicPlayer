@@ -15,23 +15,17 @@ namespace musicPlayer
     public partial class Form1 : Form
     {
         string[] files, paths;
-        WMPLib.WindowsMediaPlayer wPlayer = new WMPLib.WindowsMediaPlayer();
+        WindowsMediaPlayer wPlayer = new WindowsMediaPlayer();
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        //previous song button
-        private void previousBtn_Click(object sender, EventArgs e)
-        {
-
-        }
-
         //pause song
         private void pauseBtn_Click(object sender, EventArgs e)
         {
-            wPlayer.controls.stop();
+            wPlayer.controls.pause();
         }
 
         //play song button - throw error when user clicked Play with no song selected
@@ -40,7 +34,6 @@ namespace musicPlayer
             try
             {
                 wPlayer.URL = paths[songList.SelectedIndex];
-                wPlayer.controls.play();
             }
             catch
             {
@@ -95,43 +88,67 @@ namespace musicPlayer
                 wPlayer.settings.setMode("Loop", false);
             }
         }
-
-        private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
-        {
-            if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsMediaEnded)
-            {
-                timer1.Interval = 100;
-                timer1.Enabled = true;
-            }
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (songList.SelectedIndex < files.Length - 1)
-            {
-                songList.SelectedIndex++;
-                timer1.Enabled = false;
-            }
-            else
-            {
-                songList.SelectedIndex = 0;
-                timer1.Enabled = false;
-            }
-        }
-
+    
         private void shuffleBox_CheckedChanged(object sender, EventArgs e)
         {
 
         }
 
+        private void resumeBtn_Click(object sender, EventArgs e)
+        {
+            wPlayer.controls.play();
+        }
+
+        private void clearBtn_Click(object sender, EventArgs e)
+        {
+            songList.Items.Clear();
+        }
+
+        private void nextBtn_Click(object sender, EventArgs e)
+        {
+            if (songList.SelectedIndex != songList.Items.Count - 1)
+            {
+                songList.SelectedIndex = songList.SelectedIndex + 1;
+            }
+            else
+            {
+                songList.SelectedIndex = 0;
+            }
+        }
+
+        private void prvBtn_Click(object sender, EventArgs e)
+        {
+            if (songList.SelectedIndex != songList.Items.Count + 1)
+            {
+                songList.SelectedIndex = songList.SelectedIndex - 1;
+            }
+            else
+            {
+                songList.SelectedIndex = 0;
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            if (e.newState == 3)
+            {
+                label1.Text = wPlayer.currentMedia.durationString;
+
+            }
+        }
+
         //what the form will do when user opens the program
         private void Form1_Load(object sender, EventArgs e)
         {
-            //MessageBox.Show("Welcome to my MusicPlayer!","Hello there!");
             //hide windows media player UI
-            //axWindowsMediaPlayer1.uiMode = "Invisible";
+            axWindowsMediaPlayer1.uiMode = "Invisible";
         }
 
-        
+       
     }
 }
