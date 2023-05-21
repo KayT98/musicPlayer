@@ -15,7 +15,7 @@ namespace musicPlayer
     public partial class Form1 : Form
     {
         string[] files, paths;
-        WindowsMediaPlayer wPlayer = new WindowsMediaPlayer();
+        //WindowsMediaPlayer wPlayer = new WindowsMediaPlayer();
 
         public Form1()
         {
@@ -25,7 +25,7 @@ namespace musicPlayer
         //pause song
         private void pauseBtn_Click(object sender, EventArgs e)
         {
-            wPlayer.controls.pause();
+            axWindowsMediaPlayer1.Ctlcontrols.pause();
         }
 
         //play song button - throw error when user clicked Play with no song selected
@@ -33,7 +33,8 @@ namespace musicPlayer
         {                  
             try
             {
-                wPlayer.URL = paths[songList.SelectedIndex];
+                axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
+                axWindowsMediaPlayer1.Ctlcontrols.play();
             }
             catch
             {
@@ -81,11 +82,11 @@ namespace musicPlayer
         {           
             if (loop.Checked)
             {
-                wPlayer.settings.setMode("Loop", true);
+                axWindowsMediaPlayer1.settings.setMode("Loop", true);
             }
             else
             {
-                wPlayer.settings.setMode("Loop", false);
+                axWindowsMediaPlayer1.settings.setMode("Loop", false);
             }
         }
     
@@ -96,7 +97,7 @@ namespace musicPlayer
 
         private void resumeBtn_Click(object sender, EventArgs e)
         {
-            wPlayer.controls.play();
+            axWindowsMediaPlayer1.Ctlcontrols.play();
         }
 
         private void clearBtn_Click(object sender, EventArgs e)
@@ -109,6 +110,7 @@ namespace musicPlayer
             if (songList.SelectedIndex != songList.Items.Count - 1)
             {
                 songList.SelectedIndex = songList.SelectedIndex + 1;
+                
             }
             else
             {
@@ -121,6 +123,7 @@ namespace musicPlayer
             if (songList.SelectedIndex != songList.Items.Count + 1)
             {
                 songList.SelectedIndex = songList.SelectedIndex - 1;
+                timer1.Start();
             }
             else
             {
@@ -129,17 +132,28 @@ namespace musicPlayer
         }
 
         private void timer1_Tick(object sender, EventArgs e)
-        {
-           
+        { 
+            label2.Text = axWindowsMediaPlayer1.Ctlcontrols.currentPositionString;              
         }
 
         private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
-            if (e.newState == 3)
+            label1.Text = axWindowsMediaPlayer1.currentMedia.durationString;  
+            if (e.newState == 8)
             {
-                label1.Text = wPlayer.currentMedia.durationString;
-
-            }
+                BeginInvoke(new Action(() =>
+                {
+                    if (songList.SelectedIndex >= songList.Items.Count - 1)
+                    {
+                        songList.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        songList.SelectedIndex = songList.SelectedIndex + 1;
+                    }
+                    axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];                    
+                }));                   
+            }                    
         }
 
         //what the form will do when user opens the program
