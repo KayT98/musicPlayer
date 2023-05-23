@@ -46,10 +46,10 @@ namespace musicPlayer
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
+            this.label3 = new System.Windows.Forms.Label();
             this.resumeBtn = new System.Windows.Forms.Button();
             this.pauseBtn = new System.Windows.Forms.Button();
             this.playBtn = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -185,45 +185,12 @@ namespace musicPlayer
             // axWindowsMediaPlayer1
             // 
             this.axWindowsMediaPlayer1.Enabled = true;
-            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(90, 71);
+            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(66, 78);
             this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
             this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
-            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(101, 65);
+            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(144, 47);
             this.axWindowsMediaPlayer1.TabIndex = 20;
             this.axWindowsMediaPlayer1.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.axWindowsMediaPlayer1_PlayStateChange);
-            // 
-            // resumeBtn
-            // 
-            this.resumeBtn.BackgroundImage = global::musicPlayer.Properties.Resources.resumebtn;
-            this.resumeBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.resumeBtn.Location = new System.Drawing.Point(131, 261);
-            this.resumeBtn.Name = "resumeBtn";
-            this.resumeBtn.Size = new System.Drawing.Size(49, 36);
-            this.resumeBtn.TabIndex = 12;
-            this.resumeBtn.UseVisualStyleBackColor = true;
-            this.resumeBtn.Click += new System.EventHandler(this.resumeBtn_Click);
-            // 
-            // pauseBtn
-            // 
-            this.pauseBtn.BackgroundImage = global::musicPlayer.Properties.Resources.pausebtn;
-            this.pauseBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pauseBtn.Location = new System.Drawing.Point(24, 261);
-            this.pauseBtn.Name = "pauseBtn";
-            this.pauseBtn.Size = new System.Drawing.Size(49, 36);
-            this.pauseBtn.TabIndex = 2;
-            this.pauseBtn.UseVisualStyleBackColor = true;
-            this.pauseBtn.Click += new System.EventHandler(this.pauseBtn_Click);
-            // 
-            // playBtn
-            // 
-            this.playBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("playBtn.BackgroundImage")));
-            this.playBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.playBtn.Location = new System.Drawing.Point(76, 261);
-            this.playBtn.Name = "playBtn";
-            this.playBtn.Size = new System.Drawing.Size(49, 36);
-            this.playBtn.TabIndex = 1;
-            this.playBtn.UseVisualStyleBackColor = true;
-            this.playBtn.Click += new System.EventHandler(this.playBtn_Click);
             // 
             // label3
             // 
@@ -233,11 +200,53 @@ namespace musicPlayer
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 21;
             // 
+            // resumeBtn
+            // 
+            this.resumeBtn.BackColor = System.Drawing.Color.Transparent;
+            this.resumeBtn.BackgroundImage = global::musicPlayer.Properties.Resources.resumebtn;
+            this.resumeBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.resumeBtn.FlatAppearance.BorderSize = 0;
+            this.resumeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.resumeBtn.Location = new System.Drawing.Point(131, 261);
+            this.resumeBtn.Name = "resumeBtn";
+            this.resumeBtn.Size = new System.Drawing.Size(49, 36);
+            this.resumeBtn.TabIndex = 12;
+            this.resumeBtn.UseVisualStyleBackColor = false;
+            this.resumeBtn.Click += new System.EventHandler(this.resumeBtn_Click);
+            // 
+            // pauseBtn
+            // 
+            this.pauseBtn.BackgroundImage = global::musicPlayer.Properties.Resources.pausebtn;
+            this.pauseBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pauseBtn.FlatAppearance.BorderSize = 0;
+            this.pauseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pauseBtn.Location = new System.Drawing.Point(24, 261);
+            this.pauseBtn.Name = "pauseBtn";
+            this.pauseBtn.Size = new System.Drawing.Size(49, 36);
+            this.pauseBtn.TabIndex = 2;
+            this.pauseBtn.UseVisualStyleBackColor = true;
+            this.pauseBtn.Click += new System.EventHandler(this.pauseBtn_Click);
+            // 
+            // playBtn
+            // 
+            this.playBtn.BackColor = System.Drawing.Color.Transparent;
+            this.playBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("playBtn.BackgroundImage")));
+            this.playBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.playBtn.FlatAppearance.BorderSize = 0;
+            this.playBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.playBtn.ForeColor = System.Drawing.Color.Transparent;
+            this.playBtn.Location = new System.Drawing.Point(76, 261);
+            this.playBtn.Name = "playBtn";
+            this.playBtn.Size = new System.Drawing.Size(49, 36);
+            this.playBtn.TabIndex = 1;
+            this.playBtn.UseVisualStyleBackColor = false;
+            this.playBtn.Click += new System.EventHandler(this.playBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(303, 368);
+            this.ClientSize = new System.Drawing.Size(298, 368);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.axWindowsMediaPlayer1);
             this.Controls.Add(this.label2);

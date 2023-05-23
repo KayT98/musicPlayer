@@ -15,7 +15,6 @@ namespace musicPlayer
     public partial class Form1 : Form
     {
         string[] files, paths;
-        //WindowsMediaPlayer wPlayer = new WindowsMediaPlayer();
 
         public Form1()
         {
@@ -30,18 +29,8 @@ namespace musicPlayer
 
         //play song button - throw error when user clicked Play with no song selected
         private void playBtn_Click(object sender, EventArgs e)
-        {                  
-            try
-            {
-                axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
-            }
-            catch
-            {
-                string msg = "Please choose a song";
-                string title = "Error playing song";
-                MessageBox.Show(msg, title);
-            }
-            
+        {
+            axWindowsMediaPlayer1.Ctlcontrols.play();
         }
 
         //add song button - can add multiple song - all files accepted
@@ -53,9 +42,9 @@ namespace musicPlayer
                 if(addSong.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 files = addSong.SafeFileNames;
-                paths = addSong.FileNames;
+                paths = (paths ?? Enumerable.Empty<string>()).Concat(addSong.FileNames).ToArray();
 
-                for(int i = 0; i < files.Length; i++)
+                for (int i = 0; i < files.Length; i++)
                 {
                    songList.Items.Add(files[i]);
                 }
@@ -121,8 +110,7 @@ namespace musicPlayer
         { 
             label2.Text = axWindowsMediaPlayer1.Ctlcontrols.currentPositionString;
         }
-        
-       
+
         private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
             label1.Text = axWindowsMediaPlayer1.currentMedia.durationString;
@@ -155,14 +143,14 @@ namespace musicPlayer
                             songList.SelectedIndex = songList.SelectedIndex + 1;
                         }
                         axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
+                        axWindowsMediaPlayer1.Ctlcontrols.play();
                     }));
                 }
                 else
-                {
+                {                   
                     axWindowsMediaPlayer1.Ctlcontrols.stop();
                 }
             }
-
         }
 
         private void songList_SelectedIndexChanged(object sender, EventArgs e)
@@ -174,9 +162,8 @@ namespace musicPlayer
         private void Form1_Load(object sender, EventArgs e)
         {
             //hide windows media player UI
-            axWindowsMediaPlayer1.uiMode = "Invisible";
-            axWindowsMediaPlayer1.settings.autoStart = true;
-            axWindowsMediaPlayer1.Ctlcontrols.play();
+            //axWindowsMediaPlayer1.uiMode = "Invisible";
+           
         }      
     }
 }

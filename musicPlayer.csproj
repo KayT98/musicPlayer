@@ -111,5 +111,8 @@
   <ItemGroup>
     <None Include="Resources\playbtn.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Email_Signature_Sebastian_Alvarado.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
