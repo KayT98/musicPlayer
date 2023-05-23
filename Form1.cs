@@ -34,7 +34,6 @@ namespace musicPlayer
             try
             {
                 axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
-                axWindowsMediaPlayer1.Ctlcontrols.play();
             }
             catch
             {
@@ -63,7 +62,7 @@ namespace musicPlayer
             }
         }
 
-        //remove song button - throw error when user clicked Remove with no song selected
+        //remove song button - throw error when user clicked Remove with no song is selected
         private void removeBtn_Click(object sender, EventArgs e)
         {
             try
@@ -75,18 +74,6 @@ namespace musicPlayer
                 string msg = "No song selected";
                 string title = "Error removing song";
                 MessageBox.Show(msg, title);
-            }
-        }
-
-        private void loop_CheckedChanged(object sender, EventArgs e)
-        {           
-            if (loop.Checked)
-            {
-                axWindowsMediaPlayer1.settings.setMode("Loop", true);
-            }
-            else
-            {
-                axWindowsMediaPlayer1.settings.setMode("Loop", false);
             }
         }
     
@@ -107,10 +94,9 @@ namespace musicPlayer
 
         private void nextBtn_Click(object sender, EventArgs e)
         {
-            if (songList.SelectedIndex != songList.Items.Count - 1)
+            if(songList.SelectedIndex < songList.Items.Count - 1)
             {
                 songList.SelectedIndex = songList.SelectedIndex + 1;
-                
             }
             else
             {
@@ -120,10 +106,9 @@ namespace musicPlayer
 
         private void prvBtn_Click(object sender, EventArgs e)
         {
-            if (songList.SelectedIndex != songList.Items.Count + 1)
+            if (songList.SelectedIndex > 0)
             {
                 songList.SelectedIndex = songList.SelectedIndex - 1;
-                timer1.Start();
             }
             else
             {
@@ -131,29 +116,58 @@ namespace musicPlayer
             }
         }
 
+
         private void timer1_Tick(object sender, EventArgs e)
         { 
-            label2.Text = axWindowsMediaPlayer1.Ctlcontrols.currentPositionString;              
+            label2.Text = axWindowsMediaPlayer1.Ctlcontrols.currentPositionString;
         }
-
+        
+       
         private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
-            label1.Text = axWindowsMediaPlayer1.currentMedia.durationString;  
+            label1.Text = axWindowsMediaPlayer1.currentMedia.durationString;
+            if (e.newState == 3)
+            {
+                label3.Text = "Playing: " + axWindowsMediaPlayer1.Ctlcontrols.currentItem.name;
+            }
+
+            if (loop.Checked)
+            {
+                axWindowsMediaPlayer1.settings.setMode("Loop", true);
+            }
+            else
+            {
+                axWindowsMediaPlayer1.settings.setMode("Loop", false);
+            }
+
             if (e.newState == 8)
             {
-                BeginInvoke(new Action(() =>
+                if (repeat.Checked)
                 {
-                    if (songList.SelectedIndex >= songList.Items.Count - 1)
+                    BeginInvoke(new Action(() =>
                     {
-                        songList.SelectedIndex = 0;
-                    }
-                    else
-                    {
-                        songList.SelectedIndex = songList.SelectedIndex + 1;
-                    }
-                    axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];                    
-                }));                   
-            }                    
+                        if (songList.SelectedIndex >= songList.Items.Count - 1)
+                        {
+                            songList.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            songList.SelectedIndex = songList.SelectedIndex + 1;
+                        }
+                        axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
+                    }));
+                }
+                else
+                {
+                    axWindowsMediaPlayer1.Ctlcontrols.stop();
+                }
+            }
+
+        }
+
+        private void songList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
         }
 
         //what the form will do when user opens the program
@@ -161,8 +175,8 @@ namespace musicPlayer
         {
             //hide windows media player UI
             axWindowsMediaPlayer1.uiMode = "Invisible";
-        }
-
-       
+            axWindowsMediaPlayer1.settings.autoStart = true;
+            axWindowsMediaPlayer1.Ctlcontrols.play();
+        }      
     }
 }
