@@ -68,7 +68,27 @@ namespace musicPlayer
     
         private void shuffleBox_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (shuffleBox.Checked)
+            {
+                ListBox.ObjectCollection list = songList.Items;
+                Random random = new Random();
+                int song = list.Count;
+                songList.BeginUpdate();
+                while (song > 1)
+                {
+                    song--;
+                    int randSong = random.Next(song + 1);
+                    object value = list[randSong];
+                    list[randSong] = list[song];
+                    list[song] = value;
+                }
+                songList.EndUpdate();
+                songList.Invalidate();
+            }
+            else
+            {
+               
+            }
         }
 
         private void resumeBtn_Click(object sender, EventArgs e)
@@ -158,12 +178,28 @@ namespace musicPlayer
             axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
         }
 
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            axWindowsMediaPlayer1.settings.volume = trackBar1.Value;
+        }
+
+        private void mute_CheckedChanged(object sender, EventArgs e)
+        {
+            if (mute.Checked)
+            {
+                axWindowsMediaPlayer1.settings.mute = true;
+            }
+            else
+            {
+                axWindowsMediaPlayer1.settings.mute = false;
+            }          
+        }
+
         //what the form will do when user opens the program
         private void Form1_Load(object sender, EventArgs e)
         {
             //hide windows media player UI
-            //axWindowsMediaPlayer1.uiMode = "Invisible";
-           
+            axWindowsMediaPlayer1.uiMode = "Invisible";
         }      
     }
 }

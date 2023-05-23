@@ -50,7 +50,10 @@ namespace musicPlayer
             this.resumeBtn = new System.Windows.Forms.Button();
             this.pauseBtn = new System.Windows.Forms.Button();
             this.playBtn = new System.Windows.Forms.Button();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.mute = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // songList
@@ -231,7 +234,7 @@ namespace musicPlayer
             // 
             this.playBtn.BackColor = System.Drawing.Color.Transparent;
             this.playBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("playBtn.BackgroundImage")));
-            this.playBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.playBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.playBtn.FlatAppearance.BorderSize = 0;
             this.playBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.playBtn.ForeColor = System.Drawing.Color.Transparent;
@@ -242,11 +245,34 @@ namespace musicPlayer
             this.playBtn.UseVisualStyleBackColor = false;
             this.playBtn.Click += new System.EventHandler(this.playBtn_Click);
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(24, 361);
+            this.trackBar1.Maximum = 100;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(104, 45);
+            this.trackBar1.TabIndex = 22;
+            this.trackBar1.Value = 100;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // mute
+            // 
+            this.mute.AutoSize = true;
+            this.mute.Location = new System.Drawing.Point(147, 366);
+            this.mute.Name = "mute";
+            this.mute.Size = new System.Drawing.Size(50, 17);
+            this.mute.TabIndex = 23;
+            this.mute.Text = "Mute";
+            this.mute.UseVisualStyleBackColor = true;
+            this.mute.CheckedChanged += new System.EventHandler(this.mute_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(298, 368);
+            this.ClientSize = new System.Drawing.Size(298, 407);
+            this.Controls.Add(this.mute);
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.axWindowsMediaPlayer1);
             this.Controls.Add(this.label2);
@@ -271,6 +297,7 @@ namespace musicPlayer
             this.Text = "Music Player";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,6 +323,8 @@ namespace musicPlayer
         private System.Windows.Forms.Label label2;
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.CheckBox mute;
     }
 }
 
