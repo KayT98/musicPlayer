@@ -52,12 +52,14 @@ namespace musicPlayer
             this.playBtn = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.mute = new System.Windows.Forms.CheckBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // songList
             // 
+            this.songList.AllowDrop = true;
             this.songList.FormattingEnabled = true;
             this.songList.Location = new System.Drawing.Point(5, 13);
             this.songList.Name = "songList";
@@ -154,7 +156,7 @@ namespace musicPlayer
             // duration
             // 
             this.duration.AutoSize = true;
-            this.duration.Location = new System.Drawing.Point(21, 224);
+            this.duration.Location = new System.Drawing.Point(2, 224);
             this.duration.Name = "duration";
             this.duration.Size = new System.Drawing.Size(81, 13);
             this.duration.TabIndex = 16;
@@ -258,7 +260,7 @@ namespace musicPlayer
             // mute
             // 
             this.mute.AutoSize = true;
-            this.mute.Location = new System.Drawing.Point(147, 366);
+            this.mute.Location = new System.Drawing.Point(145, 370);
             this.mute.Name = "mute";
             this.mute.Size = new System.Drawing.Size(50, 17);
             this.mute.TabIndex = 23;
@@ -266,11 +268,19 @@ namespace musicPlayer
             this.mute.UseVisualStyleBackColor = true;
             this.mute.CheckedChanged += new System.EventHandler(this.mute_CheckedChanged);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(5, 245);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(288, 10);
+            this.progressBar1.TabIndex = 24;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(298, 407);
+            this.ClientSize = new System.Drawing.Size(298, 399);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.mute);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.label3);
@@ -325,6 +335,7 @@ namespace musicPlayer
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.CheckBox mute;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

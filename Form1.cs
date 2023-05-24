@@ -40,15 +40,15 @@ namespace musicPlayer
             addSong.Multiselect = true;
             addSong.Filter = "All Files|*.*";
                 if(addSong.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                files = addSong.SafeFileNames;
-                paths = (paths ?? Enumerable.Empty<string>()).Concat(addSong.FileNames).ToArray();
-
-                for (int i = 0; i < files.Length; i++)
                 {
-                   songList.Items.Add(files[i]);
+                    files = addSong.SafeFileNames;
+                    paths = (paths ?? Enumerable.Empty<string>()).Concat(addSong.FileNames).ToArray();
+
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                       songList.Items.Add(files[i]);
+                    }
                 }
-            }
         }
 
         //remove song button - throw error when user clicked Remove with no song is selected
@@ -65,7 +65,8 @@ namespace musicPlayer
                 MessageBox.Show(msg, title);
             }
         }
-    
+        
+        //shuffle files in listbox
         private void shuffleBox_CheckedChanged(object sender, EventArgs e)
         {
             if (shuffleBox.Checked)
@@ -84,10 +85,6 @@ namespace musicPlayer
                 }
                 songList.EndUpdate();
                 songList.Invalidate();
-            }
-            else
-            {
-               
             }
         }
 
@@ -125,20 +122,29 @@ namespace musicPlayer
             }
         }
 
-
         private void timer1_Tick(object sender, EventArgs e)
-        { 
+        {   
+            //display the song current position (time)
             label2.Text = axWindowsMediaPlayer1.Ctlcontrols.currentPositionString;
+
+            if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsPlaying)
+            {
+                progressBar1.Value = (int)axWindowsMediaPlayer1.Ctlcontrols.currentPosition;
+            }
         }
 
         private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
+            //display song duration
             label1.Text = axWindowsMediaPlayer1.currentMedia.durationString;
-            if (e.newState == 3)
+
+            //display which song is playing         
+            if (e.newState == 3) //3 is Playing state
             {
-                label3.Text = "Playing: " + axWindowsMediaPlayer1.Ctlcontrols.currentItem.name;
+                label3.Text = "Now Playing: " + axWindowsMediaPlayer1.Ctlcontrols.currentItem.name;
             }
 
+            //when user checked/unchecked loop checkbox, the song will loop or no
             if (loop.Checked)
             {
                 axWindowsMediaPlayer1.settings.setMode("Loop", true);
@@ -147,8 +153,9 @@ namespace musicPlayer
             {
                 axWindowsMediaPlayer1.settings.setMode("Loop", false);
             }
-
-            if (e.newState == 8)
+            //when user checked/unchecked repeat checkbox, the songs will loop through all songs in listbox
+            //if uncheck, it will play only one song and then stop
+            if (e.newState == 8) //8 is MediaEnded state -- when a song ended
             {
                 if (repeat.Checked)
                 {
@@ -167,22 +174,40 @@ namespace musicPlayer
                     }));
                 }
                 else
-                {                   
+                {                    
                     axWindowsMediaPlayer1.Ctlcontrols.stop();
                 }
             }
+
+            if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsPlaying)
+            {
+                progressBar1.Maximum = (int)axWindowsMediaPlayer1.Ctlcontrols.currentItem.duration;
+                timer1.Start();
+            }
+            else if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsPaused) 
+            {
+                timer1.Stop();
+            }
+            else
+            {
+                timer1.Stop();
+                progressBar1.Value = 0;
+            }
         }
 
+        //allows user to play songs by clicking them inside listbox 
         private void songList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
+            //axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
         }
 
+        //volume btn
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             axWindowsMediaPlayer1.settings.volume = trackBar1.Value;
         }
 
+        //mute song
         private void mute_CheckedChanged(object sender, EventArgs e)
         {
             if (mute.Checked)
