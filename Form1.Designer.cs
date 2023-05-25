@@ -90,7 +90,7 @@ namespace musicPlayer
             // shuffleBox
             // 
             this.shuffleBox.AutoSize = true;
-            this.shuffleBox.Location = new System.Drawing.Point(217, 309);
+            this.shuffleBox.Location = new System.Drawing.Point(212, 338);
             this.shuffleBox.Name = "shuffleBox";
             this.shuffleBox.Size = new System.Drawing.Size(59, 17);
             this.shuffleBox.TabIndex = 8;
@@ -101,7 +101,7 @@ namespace musicPlayer
             // repeat
             // 
             this.repeat.AutoSize = true;
-            this.repeat.Location = new System.Drawing.Point(217, 286);
+            this.repeat.Location = new System.Drawing.Point(212, 315);
             this.repeat.Name = "repeat";
             this.repeat.Size = new System.Drawing.Size(61, 17);
             this.repeat.TabIndex = 10;
@@ -111,7 +111,7 @@ namespace musicPlayer
             // loop
             // 
             this.loop.AutoSize = true;
-            this.loop.Location = new System.Drawing.Point(217, 263);
+            this.loop.Location = new System.Drawing.Point(212, 292);
             this.loop.Name = "loop";
             this.loop.Size = new System.Drawing.Size(50, 17);
             this.loop.TabIndex = 11;
@@ -145,7 +145,7 @@ namespace musicPlayer
             // 
             // clearBtn
             // 
-            this.clearBtn.Location = new System.Drawing.Point(212, 332);
+            this.clearBtn.Location = new System.Drawing.Point(207, 361);
             this.clearBtn.Name = "clearBtn";
             this.clearBtn.Size = new System.Drawing.Size(64, 23);
             this.clearBtn.TabIndex = 15;
@@ -156,7 +156,7 @@ namespace musicPlayer
             // duration
             // 
             this.duration.AutoSize = true;
-            this.duration.Location = new System.Drawing.Point(2, 224);
+            this.duration.Location = new System.Drawing.Point(2, 225);
             this.duration.Name = "duration";
             this.duration.Size = new System.Drawing.Size(81, 13);
             this.duration.TabIndex = 16;
@@ -165,7 +165,7 @@ namespace musicPlayer
             // time
             // 
             this.time.AutoSize = true;
-            this.time.Location = new System.Drawing.Point(209, 224);
+            this.time.Location = new System.Drawing.Point(209, 225);
             this.time.Name = "time";
             this.time.Size = new System.Drawing.Size(36, 13);
             this.time.TabIndex = 17;
@@ -174,7 +174,7 @@ namespace musicPlayer
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(108, 224);
+            this.label1.Location = new System.Drawing.Point(108, 225);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 18;
@@ -182,7 +182,7 @@ namespace musicPlayer
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(248, 224);
+            this.label2.Location = new System.Drawing.Point(248, 225);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 19;
@@ -249,7 +249,7 @@ namespace musicPlayer
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(24, 361);
+            this.trackBar1.Location = new System.Drawing.Point(12, 361);
             this.trackBar1.Maximum = 100;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(104, 45);
@@ -260,7 +260,7 @@ namespace musicPlayer
             // mute
             // 
             this.mute.AutoSize = true;
-            this.mute.Location = new System.Drawing.Point(145, 370);
+            this.mute.Location = new System.Drawing.Point(130, 365);
             this.mute.Name = "mute";
             this.mute.Size = new System.Drawing.Size(50, 17);
             this.mute.TabIndex = 23;
@@ -270,7 +270,7 @@ namespace musicPlayer
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(5, 245);
+            this.progressBar1.Location = new System.Drawing.Point(5, 246);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(288, 10);
             this.progressBar1.TabIndex = 24;
