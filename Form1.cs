@@ -136,14 +136,7 @@ namespace musicPlayer
         private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
 
-            if (loop.Checked)
-            {
-                axWindowsMediaPlayer1.settings.setMode("Loop", true);
-            }
-            else
-            {
-                axWindowsMediaPlayer1.settings.setMode("Loop", false);
-            }
+            
             //display song duration
             label1.Text = axWindowsMediaPlayer1.currentMedia.durationString;
 
@@ -153,38 +146,34 @@ namespace musicPlayer
                 label3.Text = "Now Playing: " + axWindowsMediaPlayer1.Ctlcontrols.currentItem.name;
             }
 
-            
+
             //when user checked/unchecked repeat checkbox, the songs will loop through all songs in listbox
             //if uncheck, it will play only one song and then stop
 
             if (e.newState == 8) //8 is MediaEnded state -- when a song ended
             {
-                if (repeat.Checked)
-                {
                     BeginInvoke(new Action(() =>
                     {
                         if (songList.SelectedIndex >= songList.Items.Count - 1)
                         {
                             songList.SelectedIndex = 0;
                         }
+                        else if (loop.Checked)
+                        {
+                            axWindowsMediaPlayer1.settings.setMode("Loop", true);
+                        }
                         else
                         {
                             songList.SelectedIndex = songList.SelectedIndex + 1;
+                            axWindowsMediaPlayer1.settings.setMode("Loop", false);
                         }
                         axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
-                        axWindowsMediaPlayer1.Ctlcontrols.play();
-                    }));
-                }
-                else
-                {
-                    if (songList.SelectedIndex < songList.Items.Count - 1)
-                    {
-                        songList.SelectedIndex = songList.SelectedIndex + 1;
-                    }
-                    axWindowsMediaPlayer1.Ctlcontrols.stop();
-                }
-
-                
+                        timer1.Start();
+                    }));  
+            }
+            else
+            {
+                songList.SelectedIndex = songList.SelectedIndex;
             }
 
             if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsPlaying)
@@ -230,7 +219,7 @@ namespace musicPlayer
 
         private void loop_CheckedChanged(object sender, EventArgs e)
         {
-
+       
         }
 
         //what the form will do when user opens the program

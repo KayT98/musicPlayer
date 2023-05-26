@@ -35,7 +35,6 @@ namespace musicPlayer
             this.addBtn = new System.Windows.Forms.Button();
             this.removeBtn = new System.Windows.Forms.Button();
             this.shuffleBox = new System.Windows.Forms.CheckBox();
-            this.repeat = new System.Windows.Forms.CheckBox();
             this.loop = new System.Windows.Forms.CheckBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.nextBtn = new System.Windows.Forms.Button();
@@ -47,12 +46,12 @@ namespace musicPlayer
             this.label2 = new System.Windows.Forms.Label();
             this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             this.label3 = new System.Windows.Forms.Label();
-            this.resumeBtn = new System.Windows.Forms.Button();
-            this.pauseBtn = new System.Windows.Forms.Button();
-            this.playBtn = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.mute = new System.Windows.Forms.CheckBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.resumeBtn = new System.Windows.Forms.Button();
+            this.pauseBtn = new System.Windows.Forms.Button();
+            this.playBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
@@ -90,7 +89,7 @@ namespace musicPlayer
             // shuffleBox
             // 
             this.shuffleBox.AutoSize = true;
-            this.shuffleBox.Location = new System.Drawing.Point(212, 338);
+            this.shuffleBox.Location = new System.Drawing.Point(212, 320);
             this.shuffleBox.Name = "shuffleBox";
             this.shuffleBox.Size = new System.Drawing.Size(59, 17);
             this.shuffleBox.TabIndex = 8;
@@ -98,25 +97,16 @@ namespace musicPlayer
             this.shuffleBox.UseVisualStyleBackColor = true;
             this.shuffleBox.CheckedChanged += new System.EventHandler(this.shuffleBox_CheckedChanged);
             // 
-            // repeat
-            // 
-            this.repeat.AutoSize = true;
-            this.repeat.Location = new System.Drawing.Point(212, 315);
-            this.repeat.Name = "repeat";
-            this.repeat.Size = new System.Drawing.Size(61, 17);
-            this.repeat.TabIndex = 10;
-            this.repeat.Text = "Repeat";
-            this.repeat.UseVisualStyleBackColor = true;
-            // 
             // loop
             // 
             this.loop.AutoSize = true;
-            this.loop.Location = new System.Drawing.Point(212, 292);
+            this.loop.Location = new System.Drawing.Point(212, 297);
             this.loop.Name = "loop";
             this.loop.Size = new System.Drawing.Size(50, 17);
             this.loop.TabIndex = 11;
             this.loop.Text = "Loop";
             this.loop.UseVisualStyleBackColor = true;
+            this.loop.CheckedChanged += new System.EventHandler(this.loop_CheckedChanged);
             // 
             // timer1
             // 
@@ -145,7 +135,7 @@ namespace musicPlayer
             // 
             // clearBtn
             // 
-            this.clearBtn.Location = new System.Drawing.Point(207, 361);
+            this.clearBtn.Location = new System.Drawing.Point(207, 343);
             this.clearBtn.Name = "clearBtn";
             this.clearBtn.Size = new System.Drawing.Size(64, 23);
             this.clearBtn.TabIndex = 15;
@@ -205,6 +195,34 @@ namespace musicPlayer
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 21;
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(12, 361);
+            this.trackBar1.Maximum = 100;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(104, 45);
+            this.trackBar1.TabIndex = 22;
+            this.trackBar1.Value = 100;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // mute
+            // 
+            this.mute.AutoSize = true;
+            this.mute.Location = new System.Drawing.Point(130, 365);
+            this.mute.Name = "mute";
+            this.mute.Size = new System.Drawing.Size(50, 17);
+            this.mute.TabIndex = 23;
+            this.mute.Text = "Mute";
+            this.mute.UseVisualStyleBackColor = true;
+            this.mute.CheckedChanged += new System.EventHandler(this.mute_CheckedChanged);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(5, 246);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(288, 10);
+            this.progressBar1.TabIndex = 24;
+            // 
             // resumeBtn
             // 
             this.resumeBtn.BackColor = System.Drawing.Color.Transparent;
@@ -247,34 +265,6 @@ namespace musicPlayer
             this.playBtn.UseVisualStyleBackColor = false;
             this.playBtn.Click += new System.EventHandler(this.playBtn_Click);
             // 
-            // trackBar1
-            // 
-            this.trackBar1.Location = new System.Drawing.Point(12, 361);
-            this.trackBar1.Maximum = 100;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(104, 45);
-            this.trackBar1.TabIndex = 22;
-            this.trackBar1.Value = 100;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-            // 
-            // mute
-            // 
-            this.mute.AutoSize = true;
-            this.mute.Location = new System.Drawing.Point(130, 365);
-            this.mute.Name = "mute";
-            this.mute.Size = new System.Drawing.Size(50, 17);
-            this.mute.TabIndex = 23;
-            this.mute.Text = "Mute";
-            this.mute.UseVisualStyleBackColor = true;
-            this.mute.CheckedChanged += new System.EventHandler(this.mute_CheckedChanged);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(5, 246);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(288, 10);
-            this.progressBar1.TabIndex = 24;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -294,7 +284,6 @@ namespace musicPlayer
             this.Controls.Add(this.nextBtn);
             this.Controls.Add(this.resumeBtn);
             this.Controls.Add(this.loop);
-            this.Controls.Add(this.repeat);
             this.Controls.Add(this.shuffleBox);
             this.Controls.Add(this.removeBtn);
             this.Controls.Add(this.addBtn);
@@ -320,7 +309,6 @@ namespace musicPlayer
         private System.Windows.Forms.Button addBtn;
         private System.Windows.Forms.Button removeBtn;
         private System.Windows.Forms.CheckBox shuffleBox;
-        private System.Windows.Forms.CheckBox repeat;
         private System.Windows.Forms.CheckBox loop;
         private System.Windows.Forms.Button resumeBtn;
         private System.Windows.Forms.Timer timer1;
