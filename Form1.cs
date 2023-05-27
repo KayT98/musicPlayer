@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -9,13 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WMPLib;
+using System.IO;
 
 namespace musicPlayer
 {
     public partial class Form1 : Form
     {
-        string[] files, paths;
-
+        string[] files, paths, dirs;
+        
         public Form1()
         {
             InitializeComponent();
@@ -36,6 +38,7 @@ namespace musicPlayer
         //add song button - can add multiple song - all files accepted
         private void addBtn_Click(object sender, EventArgs e)
         {
+            //add single file
             OpenFileDialog addSong = new OpenFileDialog();
             addSong.Multiselect = true;
             addSong.Filter = "All Files|*.*";
@@ -43,12 +46,13 @@ namespace musicPlayer
                 {
                     files = addSong.SafeFileNames;
                     paths = (paths ?? Enumerable.Empty<string>()).Concat(addSong.FileNames).ToArray();
-
-                    for (int i = 0; i < files.Length; i++)
-                    {
-                       songList.Items.Add(files[i]);
+                axWindowsMediaPlayer1.currentPlaylist = axWindowsMediaPlayer1.newPlaylist("myPlaylist", "");
+                    foreach (string playList in addSong.FileNames)
+                    {  //add playlist from the selected files by the OpenFileDialog
+                        songList.Items.Add(Path.GetFileName(playList));
+                        axWindowsMediaPlayer1.currentPlaylist.appendItem(axWindowsMediaPlayer1.newMedia(playList));
                     }
-                }
+            }
         }
 
         //remove song button - throw error when user clicked Remove with no song is selected
@@ -66,28 +70,6 @@ namespace musicPlayer
             }
         }
         
-        //shuffle files in listbox
-        private void shuffleBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (shuffleBox.Checked)
-            {
-                ListBox.ObjectCollection list = songList.Items;
-                Random random = new Random();
-                int song = list.Count;
-                songList.BeginUpdate();
-                while (song > 1)
-                {
-                    song--;
-                    int randSong = random.Next(song + 1);
-                    object value = list[randSong];
-                    list[randSong] = list[song];
-                    list[song] = value;
-                }
-                songList.EndUpdate();
-                songList.Invalidate();
-            }
-        }
-
         private void resumeBtn_Click(object sender, EventArgs e)
         {
             axWindowsMediaPlayer1.Ctlcontrols.play();
@@ -100,13 +82,16 @@ namespace musicPlayer
 
         private void nextBtn_Click(object sender, EventArgs e)
         {
+
             if(songList.SelectedIndex < songList.Items.Count - 1)
             {
                 songList.SelectedIndex = songList.SelectedIndex + 1;
+                axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
             }
             else
             {
                 songList.SelectedIndex = 0;
+                axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
             }
         }
 
@@ -115,11 +100,8 @@ namespace musicPlayer
             if (songList.SelectedIndex > 0)
             {
                 songList.SelectedIndex = songList.SelectedIndex - 1;
-            }
-            else
-            {
-                songList.SelectedIndex = 0;
-            }
+                axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
+            }  
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -135,46 +117,61 @@ namespace musicPlayer
 
         private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
-
-            
             //display song duration
             label1.Text = axWindowsMediaPlayer1.currentMedia.durationString;
 
             //display which song is playing         
             if (e.newState == 3) //3 is Playing state
             {
-                label3.Text = "Now Playing: " + axWindowsMediaPlayer1.Ctlcontrols.currentItem.name;
+                label3.Text = "Now Playing: " + axWindowsMediaPlayer1.Ctlcontrols.currentItem.name;       
             }
-
-
-            //when user checked/unchecked repeat checkbox, the songs will loop through all songs in listbox
-            //if uncheck, it will play only one song and then stop
-
-            if (e.newState == 8) //8 is MediaEnded state -- when a song ended
-            {
+ 
+                if (e.newState == 8) //8 is MediaEnded state -- when a song ended
+                {
                     BeginInvoke(new Action(() =>
                     {
-                        if (songList.SelectedIndex >= songList.Items.Count - 1)
+                        if (songList.SelectedIndex < songList.Items.Count - 1)
                         {
-                            songList.SelectedIndex = 0;
-                        }
-                        else if (loop.Checked)
-                        {
-                            axWindowsMediaPlayer1.settings.setMode("Loop", true);
+                            songList.SelectedIndex = songList.SelectedIndex + 1;
+                            axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
                         }
                         else
                         {
-                            songList.SelectedIndex = songList.SelectedIndex + 1;
-                            axWindowsMediaPlayer1.settings.setMode("Loop", false);
+                            songList.SelectedIndex = 0;
+                            axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
                         }
-                        axWindowsMediaPlayer1.URL = paths[songList.SelectedIndex];
-                        timer1.Start();
-                    }));  
-            }
-            else
-            {
-                songList.SelectedIndex = songList.SelectedIndex;
-            }
+                    }));
+
+                if (shuffleBox.Checked)
+                {
+                        BeginInvoke(new Action(() =>
+                        {
+                            ListBox.ObjectCollection list = songList.Items;
+                            Random random = new Random();
+                            int song = list.Count;
+                            songList.BeginUpdate();
+                            while (song > 1)
+                            {                                
+                                song--;
+                                int randSong = random.Next(song + 1);
+                                object value = list[randSong];
+                                list[randSong] = list[song];
+                                list[song] = value;
+                            }
+                            songList.EndUpdate();
+                            songList.Invalidate();
+
+                            WMPLib.IWMPPlaylist playlist = axWindowsMediaPlayer1.newPlaylist("myPlaylist", string.Empty);
+                            foreach (var media in songList.Items)
+                            {
+                                var mediaItem = axWindowsMediaPlayer1.newMedia(media.ToString());
+                                playlist.appendItem(mediaItem);
+                            }
+                            axWindowsMediaPlayer1.currentPlaylist = playlist;
+                        }));
+                }
+                }
+            
 
             if (axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsPlaying)
             {
@@ -202,7 +199,7 @@ namespace musicPlayer
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             axWindowsMediaPlayer1.settings.volume = trackBar1.Value;
-        }
+        }   
 
         //mute song
         private void mute_CheckedChanged(object sender, EventArgs e)
@@ -217,16 +214,11 @@ namespace musicPlayer
             }          
         }
 
-        private void loop_CheckedChanged(object sender, EventArgs e)
-        {
-       
-        }
-
         //what the form will do when user opens the program
         private void Form1_Load(object sender, EventArgs e)
         {
             //hide windows media player UI
-            axWindowsMediaPlayer1.uiMode = "Invisible";
+            axWindowsMediaPlayer1.uiMode = "Invisible"; 
         }      
     }
 }
